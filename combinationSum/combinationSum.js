@@ -15,36 +15,27 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    //  loop through each, see if number itself is modulo is 0 or if modulo is equal to another number in list
-      // if modulo is 0 just do the division then create an array with all the same number
-      //  if modulo is not 0 check to see if any numbers in the list equal that number
-        //  if they do then divide target by number then add  the modulo to the array
-  candidates.sort();
+  candidates.sort((a,b) => a - b);
   const results = [];
-  const innerFunction = function innerFunction(index, currArr, target) {
+  const innerFunction = (currArr, target, index) => {
     if (target === 0) {
-      results.push(currArr);
-      return;
-    }
-    if (target < 0) {
+      results.push(currArr.slice());
       return;
     }
     for (let i = index; i < candidates.length; i += 1) {
-      if (target < candidates[i]) {
-        return;
-      }
-      if (currArr.length === 0) {
-        innerFunction(i, [candidates[i]], target - candidates[i]);
+      if (target >= candidates[i]) {
+        const newTarget = target - candidates[i];
+        currArr.push(candidates[i]);
+        innerFunction(currArr, newTarget, i);
+        currArr.pop();
       } else {
-        const nextArr = currArr.slice();
-        nextArr.push(candidates[i]);
-        innerFunction(i, nextArr, target - candidates[i]);
+        return;
       }
     }
   }
-  innerFunction(0, [], target);
+  innerFunction([], target, 0);
   return results;
 };
 
-const test = combinationSum([2, 3, 6, 7], 7);
+const test = combinationSum([3,12,9,11,6,7,8,5,4], 15);
 console.log(test);
