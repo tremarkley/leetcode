@@ -17,6 +17,8 @@
 // Output: [[1,5]]
 // Explanation: Intervals [1,4] and [4,5] are considerred overlapping.
 
+// [[1,4],[2,3]]
+
  class Interval {
    constructor(start, end) {
      this.start = start;
